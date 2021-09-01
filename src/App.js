@@ -1,29 +1,32 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 
 function App() {
-  const [text, setText] = useState('test1');
-  const onSubmit = () => {
-    alert('submitted');
-  }
-
-  const onKeyUp = (event) => {
-    if (event.keyCode === 13)
-      onSubmit();
-  }
-
-  const updateText = () => {
-    setText('coder');
-    console.log(text);
-  }
+  // useState 사용법, set 함수도 같이 등록시켜 준다.
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const onSubmit = (event) => {
+    event.preventDefault();
+    console.log(username, password);
+  };
 
   return (
     <div className="App">
-      <input onKeyUp={onKeyUp}/>
-      <button onClick={onSubmit}>Submit</button>
-      <br /> <br />
-
-      <span>{text}</span>
-      <button onClick={updateText}>Update</button>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          // 스테이트에 등록된 username 값을 갱신해 준다
+          onChange={(e) => setUsername(e.target.value)}
+        /><br />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        /><br />
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
 }
