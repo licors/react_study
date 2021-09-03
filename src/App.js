@@ -3,18 +3,23 @@ import Movie from './components/Movie';
 import MovieForm from './components/MovieForm'
 
 function App() {
-  const [movies, setMovies] = useState([
-    { title: 'movie1', year: 2001 },
-    { title: 'movie2', year: 2002 },
-    { title: 'movie3', year: 2003 },
-    { title: 'movie4', year: 2004 }
-  ]);
+  const [movies, setMovies] = useState([]);
 
-  const renderMovies = movies.map(movie => {
+  const removeMovie = (id) => {
+    // 이터레이터를 이용해 삭제된 항목 제거시킨 후 removeMovie 에 넣음
+    setMovies(movies.filter(movie => {
+      return movie.id !== id;
+    }))
+  }
+
+  const renderMovies = movies.length ? movies.map(movie => {
     return (
-      <Movie movie={movie} key={movie.title} />
+      <Movie
+        movie={movie}
+        key={movie.id}
+        removeMovie={removeMovie} />
     );
-  });
+  }) : '추가된 영화가 없습니다.';
 
   const addMovie = (movie) => {
     setMovies([
@@ -22,10 +27,10 @@ function App() {
       movie
     ]);
   };
+
   return (
     <div className="App">
       <h1>Movie list</h1>
-      {/* 자식 컴포넌트에 함수 전달하여 부모 컴포넌트 useState 조작 */}
       <MovieForm addMovie={addMovie} />
       {renderMovies}
     </div>
